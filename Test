@@ -1,0 +1,224 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm> //To Allow The Min and Maximum Function
+#include <numeric> //To Allow The Adverage Function
+using namespace std;
+
+int NumS = 1;
+int Nos = 0;
+int Total = 0;
+float Adv = 0.0f;
+int Best = 0;
+int NumStar = 0;
+int Mark = 0;
+int pass = 0;                                            //Initialize The Values
+double high = 0;
+int low = 0;
+int level = 0;
+char Star = '*';
+int again = 0;
+string starnum, starnum2, starnum3, starnum4;
+std::vector<double> Marks(Nos);
+
+
+void star_calculation() {                               // Function That Makes The Historgram
+
+	for (int s = 1; s <= NumS; ++s,Nos++) {             //1)s Will Keep Going Up To Write The Number Of Each Student, 2)Nos Will Keep Up To Count The Number Of Students
+
+		
+		std::cout << "Student " << s << ": ";
+		std::cin >> Mark;                               //User Inputs The Marks
+		Total = Total + Mark;
+		
+		
+		std::cout << "  " << endl;
+
+
+		if (!cin >> Mark) {
+
+			std::cout << "Error, entered a non interger mark. Try again" << endl;
+			std::cout << "_____________________________________________________________________" << endl;     
+			cin.clear();                                                                                          //Error Message If The Person Enters A Non Number For A Mark
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			return star_calculation();
+
+		}
+	
+	
+
+		
+		if (Mark >= 30) {
+			                           //Checks If Each Mark Reaches The Passing Mark
+			pass = pass + 1;
+		}
+		
+		
+		
+		
+		if (Mark >= 0 and Mark <= 29) {
+			                                 //The 0-29 Range, Adds a Star If Mark Entered Is In This Range
+			starnum = starnum + Star;
+			
+		}
+
+		if (Mark >= 30 and Mark <= 39) {
+			                                 //The 30-39 Range, Adds a Star If Mark Entered Is In This Range
+			starnum2 = starnum2 + Star;
+
+		}
+
+
+		if (Mark >= 40 and Mark <= 69) {
+			                                 //The 40-69 Range, Adds a Star If Mark Entered Is In This Range
+			starnum3 = starnum3 + Star;
+
+		}
+
+		if (Mark >= 70 and Mark <= 100) {
+			                                 //The 70-100 Range, Adds a Star If Mark Entered Is In This Range
+			starnum4 = starnum4 + Star;
+
+		}
+
+
+		
+		
+		
+		
+		
+		if (Mark < 0) {
+
+			std::cout << "Error, entered a mark less than 0. Try Again" << endl;
+			std::cout << "_____________________________________________________________________" << endl;     //Makes An Error Message If A Mark Less Than 0 Is Put In
+			Total = 0;
+			starnum = "", starnum2 = "", starnum3 = "", starnum4 = "";
+			return star_calculation();
+		}
+
+
+		Marks.push_back(Mark);   //Adds Each Mark To The Vector Holding Them
+
+
+	}
+
+
+
+	
+	/*if (Total != 100) {
+
+		std::cout << "Error, marks don't equal to 100. Try Again" << endl;
+		std::cout << "_____________________________________________________________________" << endl;      //If The Marks Entered Don't Equal 100:  1)Error Message, 2)Line To Seperate The Different Attempts,3)Refreshes The Total And Stars,4)Restarts The Function
+		Total = 0;
+		starnum = "",starnum2 = "",starnum3 = "",starnum4 = "";
+		return star_calculation();
+	}
+	*/
+
+
+	
+
+ 
+		std::cout << "  " << endl;
+		std::cout << "Histogram:" << endl;                                       //Title For Histogram
+		std::cout << "---------" << endl;
+		std::cout << "0-29: " << starnum << endl;
+		std::cout << "30-39: " << starnum2 << endl;
+		std::cout << "40-69: " << starnum3 << endl;                      //Outputs The Histogram
+		std::cout << "70-100: " << starnum4 << endl;
+
+
+	
+
+}
+
+
+void restart() {
+	void main();
+	std::cout << "Do you want to start again? " << endl;
+	std::cout << "1)Yes                 2)No " << endl;
+	std::cin >> again;
+
+	switch (again) {
+
+	case 1:
+		Total = 0;
+		starnum = "", starnum2 = "", starnum3 = "", starnum4 = "";
+		std::cout << "  " << endl;
+		return main();
+		break;
+
+
+	case 2:
+		Total = 0;
+		starnum = "", starnum2 = "", starnum3 = "", starnum4 = "";
+		exit;
+		break;
+
+
+	default:
+		std::cout << "  " << endl;
+		std::cout << "Error, invalid option" << endl;
+		std::cout << "_____________________________________________________________________" << endl;     //Error Message If The Person Enters A Non Number For The Number Of Students
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::cout << "  " << endl;
+		return restart();
+		break;
+	}
+
+	
+}
+
+
+
+
+int main() {
+
+	std::cout << "Use this to generate a histogram for your student's marks. Remember, the passing grade is 30" << endl;
+	std::cout << "Enter the number of students: " << endl;
+	!(!cin);
+	std::cin >> NumS;                                           //Asks The User To Put How Much Marks They Want To Put In
+	std::cout << "  " << endl;
+
+
+	while (!cin >> NumS) {
+
+		std::cout << "Error, entered a non interger mark. Try again" << endl;
+		std::cout << "_____________________________________________________________________" << endl;     //Error Message If The Person Enters A Non Number For The Number Of Students
+		cin.clear();
+		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		return main();
+
+	}
+
+	star_calculation();   //Starts The Histogram Generator
+
+
+	
+
+	//Adv = 100 / Nos; accumulate
+    Adv = accumulate(Marks.begin(), Marks.end(), 0.0) / Marks.size();
+	high = *max_element(Marks.begin(), Marks.end());                         //Calculates The Statistics Form The Marks
+	low = *min_element(Marks.begin(), Marks.end());
+	
+
+	std::cout << "  " << endl;
+	std::cout << "Stistics:" << endl;                                       //Title For Stistics
+	std::cout << "---------" << endl;
+	
+
+	std::cout << "Adverage Mark Is: " << Adv << endl;
+	std::cout << "Number Of Students That Passed Is: " << pass << endl;         //Outputs The Statistics Form The Marks
+	std::cout << "Highest Mark: " << high << endl;
+	std::cout << "Lowest Mark: " << low << endl;
+	std::cout << "  " << endl;
+
+	restart();
+
+
+	
+
+	
+
+}
